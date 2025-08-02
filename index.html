@@ -3,17 +3,43 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TV Show Project | My Name (My GitHub username)</title>
+    <title>TV Show Project | Aida Eslamimoghadam Test (aydaeslami)</title>
     <link href="style.css" rel="stylesheet" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   </head>
 
   <body>
-    <div id="root">
-    </div>
+    <header>
+      <h1>TV-SHOW</h1>
 
-    <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
-    <script src="episodes.js"></script>
+      <div id="search-holder">
+
+        <select id="show-select">
+          <option value="all">Select a show...</option>
+        </select>
+
+        <select id="episode-select">
+          <option value="all">-- Show All Episodes --</option>
+        </select>
+
+        <label for="search">Search: </label>
+        <input type="text" name="search" id="search-input" />
+
+        <p id="match-count"></p>
+      </div>
+    </header>
+
+    <div id="message"></div>
+    <div id="root"></div>
+
+    <template id="episode-template">
+      <section class="card">
+        <h2 class="title"></h2>
+        <h3 class="code"></h3>
+        <img src="" alt="Episode image" />
+        <div class="summary"></div>
+      </section>
+    </template>
 
     <!-- Loads YOUR javascript code -->
     <script src="script.js"></script>

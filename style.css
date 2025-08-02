@@ -1,3 +1,178 @@
-#root {
-  color: red;
+/* ====== Header ====== */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: linear-gradient(to right, #ffffff, #f8f9fa);
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #e1e1e1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  gap: 0.8rem;
 }
+
+/* Title */
+header h1 {
+  font-size: 1.8rem;
+  margin: 0;
+  font-weight: 700;
+  color: #333;
+  letter-spacing: 1px;
+}
+
+/* Search holder */
+#search-holder {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#search-holder label {
+  font-size: 0.9rem;
+  color: #444;
+  font-weight: 500;
+}
+
+/* Styling input and both selects */
+#search-input,
+#episode-select,
+#show-select {
+  padding: 0.45rem 0.6rem;
+  font-size: 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  transition: border-color 0.2s ease;
+}
+
+/* Focus state for input and both selects */
+#search-input:focus,
+#episode-select:focus,
+#show-select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.2);
+}
+
+#match-count {
+  font-size: 0.85rem;
+  color: #666;
+  margin-left: 0.5rem;
+}
+
+/* ====== Body ====== */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ====== Cards Layout ====== */
+#root {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.2rem;
+  width: 100%;
+  max-width: 1100px;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
+
+
+.card {
+  flex: 0 0 calc(33.33% - 1.2rem); 
+  max-width: 300px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+/* عنوان و کد */
+.title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.code {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: #555;
+  margin: 0.15rem 0 0.8rem 0;
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin-bottom: 0.8rem;
+  object-fit: cover;
+}
+
+
+.summary {
+  font-size: 0.9rem;
+  color: #333;
+  line-height: 1.4;
+}
+
+/* ====== Responsive ====== */
+@media (max-width: 900px) {
+  .card {
+    flex: 0 0 calc(50% - 1.2rem); 
+  }
+}
+
+@media (max-width: 600px) {
+  .card {
+    flex: 0 0 100%; 
+  }
+}
+
+@media (max-width: 600px) {
+  .card {
+    flex: 0 0 100%;
+  }
+
+  #search-holder {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  #search-input,
+  #episode-select,
+  #show-select {
+    width: 100%;
+  }
+
+  #match-count {
+    margin-left: 0;
+    text-align: center;
+  }
+
+  header {
+    padding: 1rem;
+  }
+}
+
