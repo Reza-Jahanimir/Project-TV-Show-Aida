@@ -141,23 +141,17 @@ header h1 {
   box-shadow: 0 10px 20px rgba(88, 101, 242, 0.3);
 }
 
-/* ====== Images ====== */
-.episode-img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover; /* برای اپیزودها */
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.show-img {
+/* ====== Fixed Image Style (No Stretch) ====== */
+.card img {
   width: 100%;
   height: auto;
   max-height: 200px;
-  object-fit: contain; /* جلوگیری از کشیدگی در شو */
+  object-fit: contain;
+  background: #000; /* فضای خالی مشکی */
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  background: #000; /* پس‌زمینه مشکی برای فضای خالی */
 }
 
+/* ====== Content ====== */
 .card-content {
   padding: 1rem;
 }
