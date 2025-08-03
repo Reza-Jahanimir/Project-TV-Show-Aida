@@ -76,14 +76,15 @@ async function setup() {
   populateShowsMenu(allShows);
   console.log(allShows);
 
-  // Load episodes for the first show (Game of Thrones, ID 82) as default
-  allEpisodes = await fetchEpisodesForShow(82);
-  currentShowEpisodes = allEpisodes;
-  renderFilm(allEpisodes);
-  populateEpisodeMenu(allEpisodes);
-  updateCount(allEpisodes.length, allEpisodes.length);
+  // Show ALL shows initially
+  renderFilm(allShows);
+  updateCount(allShows.length, allShows.length);
 
-  // Set up event listeners (same as yours)
+  // Clear episode select (no episodes yet)
+  document.getElementById("episode-select").innerHTML =
+    '<option value="all">-- No Episodes --</option>';
+
+  // Set up event listeners
   document.getElementById("search-input").addEventListener("keyup", onSearch);
   document
     .getElementById("episode-select")
