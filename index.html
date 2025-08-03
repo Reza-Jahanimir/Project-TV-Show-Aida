@@ -10,9 +10,10 @@
 
   <body>
     <header>
-      <h1>TV-SHOW</h1>
+      <h1>🎬 TV-SHOW</h1>
 
       <div id="search-holder">
+        <span class="filter-label">📂 Filter:</span>
 
         <select id="show-select">
           <option value="all">Select a show...</option>
@@ -22,8 +23,8 @@
           <option value="all">-- Show All Episodes --</option>
         </select>
 
-        <label for="search">Search: </label>
-        <input type="text" name="search" id="search-input" />
+        <label for="search">🔎 Search: </label>
+        <input type="text" name="search" id="search-input" placeholder="Type to search..." />
 
         <p id="match-count"></p>
       </div>
@@ -34,14 +35,16 @@
 
     <template id="episode-template">
       <section class="card">
-        <h2 class="title"></h2>
-        <h3 class="code"></h3>
-        <img src="" alt="Episode image" />
-        <div class="summary"></div>
+        <img src="" alt="Episode image" class="episode-img" />
+        <div class="card-content">
+          <h3 class="code"></h3>
+          <h2 class="title"></h2>
+          <div class="summary"></div>
+          <a href="#" class="episode-url" target="_blank">▶️ Watch Episode</a>
+        </div>
       </section>
     </template>
 
-    <!-- Loads YOUR javascript code -->
     <script src="script.js"></script>
   </body>
 </html>

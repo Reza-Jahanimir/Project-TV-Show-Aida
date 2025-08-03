@@ -2,7 +2,7 @@ let allEpisodes = [];
 let allShows = [];
 let currentShowEpisodes = []; // Track episodes for currently selected show
 let fetchCache = new Map(); // Cache to prevent duplicate fetches
-console.log("global fetchCache-----", fetchCache)
+console.log("global fetchCache-----", fetchCache);
 
 const count = document.getElementById("match-count");
 const messageElement = document.getElementById("message"); // global now
@@ -14,14 +14,13 @@ async function fetchWithCache(url) {
   if (fetchCache.has(url)) {
     return fetchCache.get(url);
   }
-  
+
   try {
     const res = await fetch(url);
     if (!res.ok) throw new Error(`Failed to fetch: ${url}`);
     const data = await res.json();
     fetchCache.set(url, data);
-    // console.log("data inside fetchCache-----", data)
-    // console.log("global fetchCache-----", fetchCache)
+
     return data;
   } catch (error) {
     console.error(error);
@@ -33,16 +32,18 @@ async function fetchWithCache(url) {
 async function fetchEpisodesForShow(showId) {
   try {
     messageElement.textContent = "Loading episodes...";
-    const episodes = await fetchWithCache(`https://api.tvmaze.com/shows/${showId}/episodes`); // Dynamic showId + caching
+    const episodes = await fetchWithCache(
+      `https://api.tvmaze.com/shows/${showId}/episodes`
+    ); // Dynamic showId + caching
     messageElement.textContent = "";
     return episodes;
   } catch (error) {
-    messageElement.textContent = "Error loading episodes. Please try again later.";
+    messageElement.textContent =
+      "Error loading episodes. Please try again later.";
     console.error(error);
     return [];
   }
 }
-
 
 // Fetch and return all shows
 async function fetchAllShowsPaginated(maxPages = 10) {
@@ -62,88 +63,90 @@ async function fetchAllShowsPaginated(maxPages = 10) {
   }
 
   await getPage(0);
-  return all.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+  return all.sort((a, b) =>
+    a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+  );
 }
-
 
 // ----------------------- Main Setup -----------------------
 
 async function setup() {
   // Load all shows first
-  allShows = await fetchAllShowsPaginated(); 
-  populateShowsMenu(allShows); 
-  console.log(allShows)
+  allShows = await fetchAllShowsPaginated();
+  populateShowsMenu(allShows);
+  console.log(allShows);
 
   // Load episodes for the first show (Game of Thrones, ID 82) as default
-  allEpisodes = await fetchEpisodesForShow(82); 
-  currentShowEpisodes = allEpisodes; 
+  allEpisodes = await fetchEpisodesForShow(82);
+  currentShowEpisodes = allEpisodes;
   renderFilm(allEpisodes);
-  populateEpisodeMenu(allEpisodes); 
-  updateCount(allEpisodes.length, allEpisodes.length); 
-  
+  populateEpisodeMenu(allEpisodes);
+  updateCount(allEpisodes.length, allEpisodes.length);
+
   // Set up event listeners (same as yours)
   document.getElementById("search-input").addEventListener("keyup", onSearch);
-  document.getElementById("episode-select").addEventListener("change", onSelectEpisode);
-  document.getElementById("show-select").addEventListener("change", onSelectShow);
+  document
+    .getElementById("episode-select")
+    .addEventListener("change", onSelectEpisode);
+  document
+    .getElementById("show-select")
+    .addEventListener("change", onSelectShow);
 }
-
-
 
 // ----------------------- EventListener function logics -----------------------
 
 function onSearch(event) {
   const searchTerm = event.target.value.toLowerCase();
-  const filtered = currentShowEpisodes.filter((ep) => { 
+  const filtered = currentShowEpisodes.filter((ep) => {
     return (
       ep.name.toLowerCase().includes(searchTerm) ||
-      (ep.summary && ep.summary.toLowerCase().includes(searchTerm)) 
+      (ep.summary && ep.summary.toLowerCase().includes(searchTerm))
     );
   });
-  
-  updateCount(filtered.length, currentShowEpisodes.length); 
+
+  updateCount(filtered.length, currentShowEpisodes.length);
   renderFilm(filtered);
 }
-
-
 
 function onSelectEpisode(event) {
   const value = event.target.value;
   if (value === "all") {
-    renderFilm(currentShowEpisodes); 
-    updateCount(currentShowEpisodes.length, currentShowEpisodes.length); 
+    renderFilm(currentShowEpisodes);
+    updateCount(currentShowEpisodes.length, currentShowEpisodes.length);
   } else {
-    const selectedEpisode = currentShowEpisodes[parseInt(value)]; 
-    updateCount(1, currentShowEpisodes.length); 
+    const selectedEpisode = currentShowEpisodes[parseInt(value)];
+    updateCount(1, currentShowEpisodes.length);
     renderFilm([selectedEpisode]);
   }
-  
+
   document.getElementById("search-input").value = "";
 }
 
 // Made async to handle fetching
-async function onSelectShow(event) { 
-  const showId = event.target.value; // the value is the id of the show 
-  
+async function onSelectShow(event) {
+  const showId = event.target.value; // the value is the id of the show
+
   if (showId === "all") {
-    return; 
+    console.log("Showing all episodes from all shows");
+    renderFilm(allShows);
+    return;
   }
-  
+  //////////////////==============> show all shows
+
   // Fetch episodes for selected show
-  const episodes = await fetchEpisodesForShow(showId); 
-  currentShowEpisodes = episodes; 
-  allEpisodes = episodes; 
-  
+  const episodes = await fetchEpisodesForShow(showId);
+  currentShowEpisodes = episodes;
+  allEpisodes = episodes;
+
   // Update all displays
   renderFilm(episodes);
-  populateEpisodeMenu(episodes); 
+  populateEpisodeMenu(episodes);
   updateCount(episodes.length, episodes.length);
-  
+
   // Reset other controls
   document.getElementById("search-input").value = "";
   document.getElementById("episode-select").value = "all";
 }
-
-
 
 // ----------------------- Helper functions -----------------------
 
@@ -174,7 +177,6 @@ function populateEpisodeMenu(episodes) {
   });
 }
 
-
 function populateShowsMenu(shows) {
   const showSelect = document.getElementById("show-select");
   showSelect.innerHTML = '<option value="all">-- Show All Shows --</option>';
@@ -186,29 +188,41 @@ function populateShowsMenu(shows) {
     showSelect.appendChild(option);
   });
 }
-
-
-
-function renderFilm(episodeList) {
+function renderFilm(mediaList) {
   const containerEpisode = document.getElementById("root");
   containerEpisode.innerHTML = "";
   const templateEpisode = document.getElementById("episode-template");
 
-  episodeList.forEach((episode) => {
+  mediaList.forEach((mediaItem) => {
     const clone = templateEpisode.content.cloneNode(true);
-    
+
     // Handle missing images
     const img = clone.querySelector("img");
-    if (episode.image && episode.image.medium) {
-      img.src = episode.image.medium;
+    if (mediaItem.image && mediaItem.image.medium) {
+      img.src = mediaItem.image.medium;
     } else {
       img.src = "https://via.placeholder.com/210x295?text=No+Image";
     }
-    
-    clone.querySelector(".title").textContent =
-      episode.name + " - " + formatEpisodeCode(episode.season, episode.number);
 
-    clone.querySelector(".summary").innerHTML = episode.summary || "No summary available.";
+    // Title = name + season/number
+    clone.querySelector(".title").textContent =
+      mediaItem.season !== undefined && mediaItem.number !== undefined
+        ? `${mediaItem.name} - ${formatEpisodeCode(
+            mediaItem.season,
+            mediaItem.number
+          )}`
+        : mediaItem.name || "Show";
+
+    // Summary
+    clone.querySelector(".summary").innerHTML =
+      mediaItem.summary || "No summary available.";
+
+    // URL
+    const urlElement = clone.querySelector(".episode-url");
+    if (urlElement) {
+      urlElement.href = mediaItem.url || "#";
+    }
+
     containerEpisode.append(clone);
   });
 }
