@@ -1,5 +1,6 @@
 let allEpisodes = [];
 let allShows = [];
+let episodeCount = 0 ;
 let currentShowEpisodes = []; // Track episodes for currently selected show
 let fetchCache = new Map(); // Cache to prevent duplicate fetches
 console.log("global fetchCache-----", fetchCache);
@@ -130,6 +131,7 @@ async function onSelectShow(event) {
   if (showId === "all") {
     console.log("Showing all episodes from all shows");
     renderFilm(allShows);
+    updateCount(allShows.length, allShows.length);
     return;
   }
   //////////////////==============> show all shows
@@ -138,12 +140,13 @@ async function onSelectShow(event) {
   const episodes = await fetchEpisodesForShow(showId);
   currentShowEpisodes = episodes;
   allEpisodes = episodes;
+  episodeCount = episodes.length
 
   // Update all displays
   renderFilm(episodes);
   populateEpisodeMenu(episodes);
   updateCount(episodes.length, episodes.length);
-
+  
   // Reset other controls
   document.getElementById("search-input").value = "";
   document.getElementById("episode-select").value = "all";
